@@ -1,4 +1,11 @@
-import { Column, DataType, Default, Model, PrimaryKey, Table } from 'sequelize-typescript';
+import {
+  Column,
+  DataType,
+  Default,
+  Model,
+  PrimaryKey,
+  Table,
+} from "sequelize-typescript";
 
 @Table
 export class Channel extends Model {

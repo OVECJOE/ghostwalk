@@ -3,7 +3,7 @@ export class MessageDto {
   text: string;
   images: string[];
   channelId: string;
-  user:{
-    username:string;
-  }
+  user: {
+    username: string;
+  };
 }

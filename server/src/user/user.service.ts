@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
-import { NotFoundException } from '@nestjs/common/exceptions';
-import sequelize from 'sequelize';
-import { Op } from 'sequelize';
-import { CreateUserDto } from './dto/create-user.dto';
-import { User } from './user.entity';
+import { Injectable } from "@nestjs/common";
+import { NotFoundException } from "@nestjs/common/exceptions";
+import sequelize from "sequelize";
+import { Op } from "sequelize";
+import { CreateUserDto } from "./dto/create-user.dto";
+import { User } from "./user.entity";
 
 @Injectable()
 export class UserService {
@@ -13,12 +13,16 @@ export class UserService {
   }
 
   async findById(id: string): Promise<User | undefined> {
-    const user = await User.findByPk(id, { attributes: { exclude: ['password'] } });
+    const user = await User.findByPk(id, {
+      attributes: { exclude: ["password"] },
+    });
     return user;
   }
 
   async findBySearch(search: string): Promise<any> {
-    const users = await User.findAll({ where: { username: { [Op.iLike]: `%${search}%` } } });
+    const users = await User.findAll({
+      where: { username: { [Op.iLike]: `%${search}%` } },
+    });
     return users;
   }
 
@@ -26,7 +30,7 @@ export class UserService {
     const user = await User.create({
       email,
       username,
-      password
+      password,
     });
     return user;
   }
@@ -37,8 +41,8 @@ export class UserService {
       return updatedUser;
     } catch {
       return {
-        statusCode: '409',
-        message: 'This username is already in use.'
+        statusCode: "409",
+        message: "This username is already in use.",
       };
     }
   }
@@ -55,13 +59,13 @@ export class UserService {
       }
 
       return {
-        statusCode: '200',
-        friends
+        statusCode: "200",
+        friends,
       };
     } catch (error) {
       return {
-        statusCode: '404',
-        message: 'Friends not found.'
+        statusCode: "404",
+        message: "Friends not found.",
       };
     }
   }
@@ -71,7 +75,8 @@ export class UserService {
     const secondUser = await this.findById(otherId);
 
     // Check if user exists
-    if (!firstUser || !secondUser) throw new NotFoundException('User not found.');
+    if (!firstUser || !secondUser)
+      throw new NotFoundException("User not found.");
 
     // Check if user is blocked
     if (
@@ -79,42 +84,54 @@ export class UserService {
       (secondUser.blocked && secondUser.blocked.includes(id))
     )
       return {
-        status: '406',
-        message: 'You cannot do this. You are blocked.'
+        status: "406",
+        message: "You cannot do this. You are blocked.",
       };
 
     // Check if users are friends
     if (status && firstUser.friends && firstUser.friends.includes(otherId))
       return {
-        statusCode: '409',
-        message: 'You are already friend.'
+        statusCode: "409",
+        message: "You are already friend.",
       };
 
     if (status) {
-      this.setRequest({ id:otherId, otherId:id, status: false });
+      this.setRequest({ id: otherId, otherId: id, status: false });
 
       User.update(
-        { friends: sequelize.fn('array_append', sequelize.col('friends'), otherId) },
+        {
+          friends: sequelize.fn(
+            "array_append",
+            sequelize.col("friends"),
+            otherId
+          ),
+        },
         { where: { id } }
       );
       User.update(
-        { friends: sequelize.fn('array_append', sequelize.col('friends'), id) },
+        { friends: sequelize.fn("array_append", sequelize.col("friends"), id) },
         { where: { id: otherId } }
       );
     } else {
       User.update(
-        { friends: sequelize.fn('array_remove', sequelize.col('friends'), otherId) },
+        {
+          friends: sequelize.fn(
+            "array_remove",
+            sequelize.col("friends"),
+            otherId
+          ),
+        },
         { where: { id } }
       );
       User.update(
-        { friends: sequelize.fn('array_remove', sequelize.col('friends'), id) },
+        { friends: sequelize.fn("array_remove", sequelize.col("friends"), id) },
         { where: { id: otherId } }
       );
     }
 
     return {
-      statusCode: '200',
-      message: 'User updated successfully.'
+      statusCode: "200",
+      message: "User updated successfully.",
     };
   }
 
@@ -129,13 +146,13 @@ export class UserService {
       }
 
       return {
-        statusCode: '200',
-        requests
+        statusCode: "200",
+        requests,
       };
     } catch {
       return {
-        statusCode: '404',
-        message: 'Requests not found.'
+        statusCode: "404",
+        message: "Requests not found.",
       };
     }
   }
@@ -145,7 +162,8 @@ export class UserService {
     const secondUser = await this.findById(otherId);
 
     // Check if user exists
-    if (!firstUser || !secondUser) throw new NotFoundException('User not found.');
+    if (!firstUser || !secondUser)
+      throw new NotFoundException("User not found.");
 
     // Check if user is blocked
     if (
@@ -153,37 +171,41 @@ export class UserService {
       (secondUser.blocked && secondUser.blocked.includes(id))
     )
       return {
-        status: '406',
-        message: 'You cannot do this. You are blocked.'
+        status: "406",
+        message: "You cannot do this. You are blocked.",
       };
 
     // Check if users are friends
     if (status && secondUser.friends && secondUser.friends.includes(id))
       return {
-        statusCode: '406',
-        message: 'You are already friends.'
+        statusCode: "406",
+        message: "You are already friends.",
       };
     if (status && secondUser.requests && secondUser.requests.includes(id))
       return {
-        statusCode: '409',
-        message: 'You already sent a request to this user.'
+        statusCode: "409",
+        message: "You already sent a request to this user.",
       };
 
     if (status) {
       User.update(
-        { requests: sequelize.fn('array_append', sequelize.col('requests'), id) },
-        { where: { id:otherId } }
+        {
+          requests: sequelize.fn("array_append", sequelize.col("requests"), id),
+        },
+        { where: { id: otherId } }
       );
     } else {
       User.update(
-        { requests: sequelize.fn('array_remove', sequelize.col('requests'), id) },
-        { where: { id:otherId } }
+        {
+          requests: sequelize.fn("array_remove", sequelize.col("requests"), id),
+        },
+        { where: { id: otherId } }
       );
     }
 
     return {
-      statusCode: '200',
-      message: 'User updated successfully.'
+      statusCode: "200",
+      message: "User updated successfully.",
     };
   }
 
@@ -198,13 +220,13 @@ export class UserService {
       }
 
       return {
-        statusCode: '200',
-        blocked
+        statusCode: "200",
+        blocked,
       };
     } catch {
       return {
-        statusCode: '404',
-        message: 'Blocked not found.'
+        statusCode: "404",
+        message: "Blocked not found.",
       };
     }
   }
@@ -214,13 +236,14 @@ export class UserService {
     const secondUser = await this.findById(otherId);
 
     // Check if user exists
-    if (!firstUser || !secondUser) throw new NotFoundException('User not found.');
+    if (!firstUser || !secondUser)
+      throw new NotFoundException("User not found.");
 
     // Check if user is blocked
     if (status && firstUser.blocked && firstUser.blocked.includes(otherId))
       return {
-        statusCode: '409',
-        message: 'This user has already been blocked.'
+        statusCode: "409",
+        message: "This user has already been blocked.",
       };
 
     this.setRequest({ id, otherId, status: false });
@@ -230,23 +253,35 @@ export class UserService {
       await this.setRequest({ id, otherId, status: false });
 
       User.update(
-        { blocked: sequelize.fn('array_append', sequelize.col('blocked'), otherId) },
         {
-          where: { id }
+          blocked: sequelize.fn(
+            "array_append",
+            sequelize.col("blocked"),
+            otherId
+          ),
+        },
+        {
+          where: { id },
         }
       );
     } else {
       User.update(
-        { blocked: sequelize.fn('array_remove', sequelize.col('blocked'), otherId) },
         {
-          where: { id }
+          blocked: sequelize.fn(
+            "array_remove",
+            sequelize.col("blocked"),
+            otherId
+          ),
+        },
+        {
+          where: { id },
         }
       );
     }
 
     return {
-      statusCode: '200',
-      message: 'User updated successfully.'
+      statusCode: "200",
+      message: "User updated successfully.",
     };
   }
 }

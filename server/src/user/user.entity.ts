@@ -7,9 +7,9 @@ import {
   DataType,
   Default,
   BeforeCreate,
-  Unique
-} from 'sequelize-typescript';
-import * as bcrypt from 'bcryptjs';
+  Unique,
+} from "sequelize-typescript";
+import * as bcrypt from "bcryptjs";
 
 @Table({ createdAt: false, updatedAt: false })
 export class User extends Model {
@@ -19,7 +19,7 @@ export class User extends Model {
   public id: string;
 
   @Unique
-  @Column(DataType.STRING('100'))
+  @Column(DataType.STRING("100"))
   public email: string;
 
   @Unique
@@ -32,7 +32,9 @@ export class User extends Model {
   @Column(DataType.STRING)
   public about: string;
 
-  @Default('https://res.cloudinary.com/dtzs4c2uv/image/upload/v1666326774/noavatar_rxbrbk.png')
+  @Default(
+    "https://res.cloudinary.com/dtzs4c2uv/image/upload/v1666326774/noavatar_rxbrbk.png"
+  )
   @Column(DataType.STRING)
   public image: string;
 
@@ -49,8 +51,11 @@ export class User extends Model {
   static async hashPassword(user: User) {
     if (user) {
       const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(user.getDataValue('password'), salt);
-      return user.setDataValue('password', hashedPassword);
+      const hashedPassword = await bcrypt.hash(
+        user.getDataValue("password"),
+        salt
+      );
+      return user.setDataValue("password", hashedPassword);
     }
   }
 }

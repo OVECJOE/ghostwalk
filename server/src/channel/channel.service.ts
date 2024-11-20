@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
-import { Op } from 'sequelize';
-import { Message } from 'src/message/message.entity';
-import { User } from 'src/user/user.entity';
-import { Channel } from './channel.entity';
-import { ChannelDto } from './dto/create-channel-dto';
+import { Injectable } from "@nestjs/common";
+import { Op } from "sequelize";
+import { Message } from "src/message/message.entity";
+import { User } from "src/user/user.entity";
+import { Channel } from "./channel.entity";
+import { ChannelDto } from "./dto/create-channel-dto";
 
 @Injectable()
 export class ChannelService {
@@ -21,8 +21,8 @@ export class ChannelService {
       return channel;
     } catch {
       return {
-        statusCode: '404',
-        message: 'Channel not found.'
+        statusCode: "404",
+        message: "Channel not found.",
       };
     }
   }
@@ -32,46 +32,58 @@ export class ChannelService {
       const channels = await Channel.findAll({
         where: {
           participants: {
-            [Op.contains]: [userId]
-          }
+            [Op.contains]: [userId],
+          },
         },
-        order: [['updatedAt', 'DESC']],
-        attributes: { exclude: ['messages', 'createdAt'] }
+        order: [["updatedAt", "DESC"]],
+        attributes: { exclude: ["messages", "createdAt"] },
       });
       const lastMessages: any[] = [];
       for (let i = 0; i < channels.length; i++) {
         const lastMessage = await Message.findOne({
           where: { channelId: channels[i].id },
-          order: [['createdAt', 'DESC']]
+          order: [["createdAt", "DESC"]],
         });
         lastMessages.push(lastMessage);
       }
 
       return {
         lastMessages,
-        channels
+        channels,
       };
     } catch {
       return {
-        statusCode: '404',
-        message: 'User or channel not found.'
+        statusCode: "404",
+        message: "User or channel not found.",
       };
     }
   }
 
-  async createChannel({participants, admins, image, name, description}: ChannelDto) {
+  async createChannel({
+    participants,
+    admins,
+    image,
+    name,
+    description,
+  }: ChannelDto) {
     try {
-      const channel = await Channel.create({participants, admins, image, name, description});
-      console.log(channel)
+      const channel = await Channel.create({
+        participants,
+        admins,
+        image,
+        name,
+        description,
+      });
+      console.log(channel);
       return {
-        statusCode: '201',
-        message: 'Channel created successfully.',
-        channel
+        statusCode: "201",
+        message: "Channel created successfully.",
+        channel,
       };
     } catch (error) {
       return {
-        status: '400',
-        message: error
+        status: "400",
+        message: error,
       };
     }
   }
@@ -80,13 +92,13 @@ export class ChannelService {
     try {
       await Channel.update(channel, { where: { id } });
       return {
-        statusCode: '200',
-        message: 'Channel updated successfully.'
+        statusCode: "200",
+        message: "Channel updated successfully.",
       };
     } catch {
       return {
-        statusCode: '404',
-        message: 'Channel not found.'
+        statusCode: "404",
+        message: "Channel not found.",
       };
     }
   }
@@ -95,13 +107,13 @@ export class ChannelService {
     try {
       await Channel.destroy({ where: { id } });
       return {
-        statusCode: '200',
-        message: 'Channel deleted successfully.'
+        statusCode: "200",
+        message: "Channel deleted successfully.",
       };
     } catch {
       return {
-        statusCode: '404',
-        message: 'Channel not found.'
+        statusCode: "404",
+        message: "Channel not found.",
       };
     }
   }

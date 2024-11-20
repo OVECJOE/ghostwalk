@@ -6,10 +6,10 @@ import {
   Table,
   Default,
   ForeignKey,
-  BelongsTo
-} from 'sequelize-typescript';
-import { Channel } from 'src/channel/channel.entity';
-import { User } from 'src/user/user.entity';
+  BelongsTo,
+} from "sequelize-typescript";
+import { Channel } from "src/channel/channel.entity";
+import { User } from "src/user/user.entity";
 
 @Table({ updatedAt: false })
 export class Message extends Model {
@@ -21,7 +21,7 @@ export class Message extends Model {
   @ForeignKey(() => Channel)
   @Column(DataType.UUID)
   public channelId: string;
-  
+
   @BelongsTo(() => Channel)
   public channel: Channel;
 

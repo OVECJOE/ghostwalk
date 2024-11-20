@@ -2,11 +2,11 @@ import {
   MessageBody,
   SubscribeMessage,
   WebSocketGateway,
-  WebSocketServer
-} from '@nestjs/websockets';
-import { Server } from 'socket.io';
-import { MessageService } from 'src/message/message.service';
-import { MessageDto } from './dto/message-dto';
+  WebSocketServer,
+} from "@nestjs/websockets";
+import { Server } from "socket.io";
+import { MessageService } from "src/message/message.service";
+import { MessageDto } from "./dto/message-dto";
 
 @WebSocketGateway({ cors: true })
 export class ChannelGateway {
@@ -15,9 +15,9 @@ export class ChannelGateway {
   @WebSocketServer()
   server: Server;
 
-  @SubscribeMessage('chat')
+  @SubscribeMessage("chat")
   handleMessage(@MessageBody() message: MessageDto) {
-    this.server.emit('chat', message);
+    this.server.emit("chat", message);
     this.messageService.addMessage(message);
   }
 }
