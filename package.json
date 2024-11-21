@@ -1,5 +1,0 @@
-{
-  "dependencies": {
-    "@nestjs/serve-static": "^4.0.2"
-  }
-}
