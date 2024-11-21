@@ -42,7 +42,7 @@ ENV NODE_ENV=production
 ENV PORT=8080
 
 # Expose the port
-EXPOSE 8080
+EXPOSE ${PORT}
 
 # Start the server
 CMD ["node", "server/dist/main.js"]
