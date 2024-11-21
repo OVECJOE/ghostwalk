@@ -23,6 +23,7 @@ const FriendBox: FC<Props> = ({ friend }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector((state: RootState) => state.auth.user)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { refresh } = useSelector((state: RootState) => state.channel);
     const { isPending, isFriend, addFriend, removeFriend } = useFriendStatus(friend.id);
     const { isBlocked, addBlock, removeBlock } = useBlockStatus(friend.id);
