@@ -1,25 +1,48 @@
-# Use Node.js base image
-FROM node:22-alpine
+# Stage 1: Build the client
+FROM node:22-slim as client-build
 
-# Set the working directory
-WORKDIR /app
+WORKDIR /app/client
 
-# Copy server files and install dependencies
-COPY ./server ./server
-WORKDIR /app/server
+# Copy and install dependencies
+COPY client/package*.json ./
 RUN npm install
 
-# Copy client files, install dependencies, and build
-WORKDIR /app
-COPY ./client ./client
-WORKDIR /app/client
-RUN npm install & npm run build
+# Copy the client files and build
+COPY client/ ./
+RUN npm run build
 
-# Set the working directory back to server
+# Stage 2: Build the server
+FROM node:22-slim as server-build
+
 WORKDIR /app/server
 
+# Copy and install dependencies
+COPY server/package*.json ./
+RUN npm install
+
+# Copy the server files
+COPY server/ ./
+RUN npm run build
+
+# Stage 3: Run the full application
+FROM node:22-slim
+
+WORKDIR /app
+
+# Copy the client and server build
+COPY --from=server-build /app/server/dist ./server/dist
+COPY --from=client-build /app/client/build ./client/build
+
+# Install the server prod dependencies
+COPY server/package*.json ./server/
+RUN cd server && npm install --only=production
+
+# Set the environment variables
+ENV NODE_ENV=production
+ENV PORT=8080
+
 # Expose the port
-EXPOSE 4000
+EXPOSE 8080
 
 # Start the server
-CMD ["npm", "start"]
+CMD ["node", "server/dist/main.js"]
