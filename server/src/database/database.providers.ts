@@ -7,13 +7,14 @@ export const databaseProviders = [
   {
     provide: "SEQUELIZE",
     useFactory: async () => {
+      const urlParts = new URL(process.env.DATABASE_URL);
       const sequelize = new Sequelize({
         dialect: "postgres",
-        host: "localhost",
-        port: 5432,
-        username: "postgres",
-        password: process.env.DB_PASSWORD,
-        database: "link-chat-app",
+        host: urlParts.hostname,
+        port: +urlParts.port,
+        username: urlParts.username,
+        password: urlParts.password,
+        database: urlParts.pathname.substring(1),
       });
       sequelize.addModels([User, Message, Channel]);
       await sequelize.sync();
