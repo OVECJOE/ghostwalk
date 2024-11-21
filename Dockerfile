@@ -1,5 +1,5 @@
 # Stage 1: Build the client
-FROM node:22-slim as client-build
+FROM node:22-alpine as client-build
 
 WORKDIR /app/client
 
@@ -12,7 +12,7 @@ COPY client/ ./
 RUN npm run build
 
 # Stage 2: Build the server
-FROM node:22-slim as server-build
+FROM node:22-alpine as server-build
 
 WORKDIR /app/server
 
@@ -25,7 +25,7 @@ COPY server/ ./
 RUN npm run build
 
 # Stage 3: Run the full application
-FROM node:22-slim
+FROM node:22-alpine
 
 WORKDIR /app
 
