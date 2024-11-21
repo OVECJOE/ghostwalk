@@ -22,8 +22,8 @@ const Sidebar = () => {
         setIsPending(true);
         const fetchChannels = async () => {
             const result = await getChannelsByUser(user?.id!);
-            setChannels(result.channels);
-            setLastMessages(result.lastMessages);
+            if (result.channels) setChannels(result.channels);
+            if (result.lastMessages) setLastMessages(result.lastMessages);
             setIsPending(false);
         };
 
