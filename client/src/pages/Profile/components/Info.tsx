@@ -58,7 +58,7 @@ const Info: FC<Props> = ({ details }) => {
                 />
                 <div className="max-w-[400px] md:pl-5">
                     <h1 className="text-2xl font-semibold my-2 xl:text-start text-center">{details?.username}</h1>
-                    <p className="min-h-[100px]">{details?.about ? details.about : 'No Information.'}</p>
+                    <p className="min-h-[100px] whitespace-pre-wrap">{details?.about ? details.about : 'No Information.'}</p>
                     <div className="flex">
                         {
                             user?.id === details?.id
