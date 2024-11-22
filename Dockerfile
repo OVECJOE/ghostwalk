@@ -5,6 +5,7 @@ WORKDIR /app/client
 
 # Copy and install dependencies
 COPY client/package*.json ./
+RUN npm cache clean --force
 RUN npm install
 
 # Copy the client files and build
