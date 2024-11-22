@@ -74,7 +74,7 @@ export class ChannelService {
         name,
         description,
       });
-      console.log(channel);
+
       return {
         statusCode: "201",
         message: "Channel created successfully.",

@@ -27,7 +27,6 @@ const ChannelForm = () => {
         var secureUrl = NO_AVATAR_CHANNEL;
 
         if (e.target.image.files.length === 1) {
-            console.log(e.target.image.files)
             secureUrl = await uploadUserImage(e.target.image.files[0]);
         }
 
