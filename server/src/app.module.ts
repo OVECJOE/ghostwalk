@@ -12,16 +12,16 @@ import { join } from "path";
 
 @Module({
   imports: [
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, "..", "..", "client", "build"),
-      exclude: ["/api*"],
-    }),
     AuthModule,
     UserModule,
     ChannelModule,
     MessageModule,
     ConfigModule.forRoot({
       envFilePath: ".env",
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, "..", "..", "client", "build"),
+      exclude: ["/api*"],
     }),
   ],
   controllers: [AppController, AuthController],

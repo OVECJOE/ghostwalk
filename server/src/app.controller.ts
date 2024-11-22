@@ -11,8 +11,8 @@ export class AppController {
     return req.user;
   }
 
-  @Get("*")
-  getRoot(@Res() res) {
-    res.sendFile(join(__dirname, "..", "..", "client", "build", "index.html"));
-  }
+  // @Get("*")
+  // getRoot(@Res() res) {
+  //   res.sendFile(join(__dirname, "..", "..", "client", "build", "index.html"));
+  // }
 }

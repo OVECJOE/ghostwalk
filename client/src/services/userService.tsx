@@ -55,7 +55,9 @@ export const setFriend = async (id: string, otherId: string, status: boolean) =>
 }
 
 export const checkFriend = async (userId: string, id: string) => {
+    console.log(userId, id)
     const { data } = await axiosWithAuth.get(`/users/${userId}`);
+    console.log(data)
     const friends: string[] = data.user.friends;
     if (!friends) return false;
 
