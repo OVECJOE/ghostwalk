@@ -51,7 +51,7 @@ const ChatInput: FC<Props> = ({ channelId, setMessages }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} method="POST" className='w-full bg-neutral-900 p-3 absolute z-10 bottom-0 border-t border-cyan-500'>
+        <form onSubmit={handleSubmit} method="POST" className='bg-neutral-900 p-3 absolute inset-x-0 z-50 bottom-0 border-t border-cyan-500'>
             {
                 images
                 &&
@@ -64,7 +64,7 @@ const ChatInput: FC<Props> = ({ channelId, setMessages }) => {
                     }
                 </div>
             }
-            <div className='flex items-center gap-3'>
+            <div className='flex justify-between items-center gap-3'>
                 <input
                     ref={uploadInputRef}
                     type="file"
@@ -76,14 +76,14 @@ const ChatInput: FC<Props> = ({ channelId, setMessages }) => {
                 <button type='button' onClick={handleUploadImage}>
                     <ImAttachment className='text-2xl hover:text-neutral-300 duration-200' />
                 </button>
-                <input
+                <textarea
                     readOnly={isPending}
                     spellCheck='true'
                     autoComplete='off'
-                    type="text"
                     name="chat"
                     placeholder="Type a message..."
-                    className="bg-neutral-800 rounded-lg w-[90%] h-10 outline-none p-2"
+                    rows={3}
+                    className="bg-neutral-800 rounded-lg flex-1 outline-none px-3 py-2 resize-none"
                 />
                 <button type='submit'>
                     <IoMdSend className='text-2xl hover:text-cyan-300 duration-200 text-cyan-500' />

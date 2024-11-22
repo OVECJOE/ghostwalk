@@ -86,7 +86,7 @@ const Chat = () => {
             )
         }
       />
-      <div ref={ref} className='flex flex-col overflow-x-hidden overflow-y-auto pb-10 px-2 scroll-smooth'>
+      <div ref={ref} className='flex flex-col overflow-x-hidden overflow-y-auto py-3 px-2 h-[80%] scroll-smooth'>
         {
           !isPending
             ?

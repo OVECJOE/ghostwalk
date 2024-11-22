@@ -19,7 +19,7 @@ const Layout: FC<Props> = ({ children }) => {
 
     return (
         <div className='h-screen flex items-center justify-center'>
-            <div className='grid grid-cols-1 md:grid-cols-5 xl:grid-cols-7 lg:w-11/12 lg:h-11/12 max-w-screen-xl w-full h-full bg-neutral-800 rounded-md'>
+            <div className='grid grid-cols-1 md:grid-cols-5 xl:grid-cols-7 md:w-11/12 md:h-11/12 max-w-screen-xl w-full h-full bg-neutral-800 rounded-md'>
                 <Sidebar />
                 <ContentArea>
                 {children}
