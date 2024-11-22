@@ -67,7 +67,7 @@ const Message: FC<Props> = ({ message }) => {
                     )
                 })
             }
-            <p>{deleted ? 'This message has been deleted.' : message.text}</p>
+            <div className='whitespace-pre-wrap'>{deleted ? 'This message has been deleted.' : message.text}</div>
             <div className={`flex justify-between  ${message.userId === user?.id ? 'text-neutral-300' : 'text-neutral-500'}`}>
                 <p className='mr-3'>{message.user?.username !== user?.username && message.user?.username}</p>
                 <p>

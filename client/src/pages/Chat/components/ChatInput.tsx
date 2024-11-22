@@ -18,6 +18,7 @@ const ChatInput: FC<Props> = ({ channelId, setMessages }) => {
     const [images, setImages] = useState<any[] | null>(null);
     const [isPending, setIsPending] = useState<boolean>(false);
     const uploadInputRef = useRef<any>(null);
+    const submitButtonRef = useRef<any>(null);
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
@@ -41,6 +42,13 @@ const ChatInput: FC<Props> = ({ channelId, setMessages }) => {
         setIsPending(false);
     };
 
+    const handleShiftEnter = (e: any) => {
+        if (e.key === 'Enter' && e.shiftKey) {
+            e.preventDefault();
+            submitButtonRef.current.click();
+        }
+    }
+
     const handleUploadImage = (e: any) => {
         e.preventDefault();
         uploadInputRef.current.click();
@@ -51,7 +59,7 @@ const ChatInput: FC<Props> = ({ channelId, setMessages }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} method="POST" className='bg-neutral-900 p-3 absolute inset-x-0 z-50 bottom-0 border-t border-cyan-500'>
+        <form onSubmit={handleSubmit} method="POST" className='bg-neutral-900 p-3 fixed inset-x-0 z-50 bottom-0 border-t border-cyan-500'>
             {
                 images
                 &&
@@ -82,10 +90,12 @@ const ChatInput: FC<Props> = ({ channelId, setMessages }) => {
                     autoComplete='off'
                     name="chat"
                     placeholder="Type a message..."
+                    // Shift + Enter should submit the form
+                    onKeyDown={handleShiftEnter}
                     rows={3}
                     className="bg-neutral-800 rounded-lg flex-1 outline-none px-3 py-2 resize-none"
                 />
-                <button type='submit'>
+                <button type='submit' ref={submitButtonRef}>
                     <IoMdSend className='text-2xl hover:text-cyan-300 duration-200 text-cyan-500' />
                 </button>
             </div>
