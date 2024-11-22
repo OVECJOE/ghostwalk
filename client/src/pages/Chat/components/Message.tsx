@@ -29,21 +29,23 @@ const Message: FC<Props> = ({ message }) => {
     return (
         <div
             className={`
-                rounded-md w-fit p-3 m-3 flex flex-col relative group
-                ${message.userId === user?.id ? 'bg-cyan-600 ml-auto' : 'bg-neutral-900'}
+                rounded-md w-fit max-w-[85%] px-3 py-2 m-3 flex flex-col relative group space-y-3
+                ${message.userId === user?.id ? 'bg-cyan-700 ml-auto' : 'bg-neutral-900'}
             `}
         >
             {
                 (message.user?.id === user?.id && message.text !== 'This message has been deleted.' && !deleted)
                 &&
-                <div className='absolute hidden group-hover:block top-2 right-1 z-30 w-[98%] bg-[rgba(8,145,178,.7)] transition-all duration-200'>
+                <div className='absolute hidden group-hover:block inset-0 z-30 bg-[#164e63b3] transition-all duration-200'>
                     {
                         isOpen
                             ?
-                            <div className='top-3 right-0 p-3 bg-cyan-500 shadow-xl absolute w-32 rounded-md'>
-                                <p className='text-xl font-semibold'>Delete ?</p>
-                                <button onClick={handleDelete} className='mr-5 font-medium text-lg py-2 hover:underline'>Yes</button>
-                                <button onClick={() => setIsOpen(false)} className='py-2 font-medium text-lg hover:underline'>No</button>
+                            <div className='top-full right-0 p-2 bg-cyan-900 shadow-xl absolute w-40 rounded-md space-y-2'>
+                                <p className='text-xl font-semibold'>Delete message?</p>
+                                <div className='flex justify-between items-center gap-5 mt-auto'>
+                                    <button onClick={handleDelete} className='font-medium text-lg hover:underline'>Yes</button>
+                                    <button onClick={() => setIsOpen(false)} className='font-medium text-lg hover:underline'>No</button>
+                                </div>
                             </div>
                             :
                             <HiOutlineChevronDown onClick={() => setIsOpen(prev => !prev)} className='ml-auto text-3xl cursor-pointer' />
@@ -66,7 +68,7 @@ const Message: FC<Props> = ({ message }) => {
                 })
             }
             <p>{deleted ? 'This message has been deleted.' : message.text}</p>
-            <div className={`flex justify-between  ${message.userId === user?.id ? 'text-neutral-300' : 'text-neutral-400'}`}>
+            <div className={`flex justify-between  ${message.userId === user?.id ? 'text-neutral-300' : 'text-neutral-500'}`}>
                 <p className='mr-3'>{message.user?.username !== user?.username && message.user?.username}</p>
                 <p>
                     {
