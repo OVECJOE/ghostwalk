@@ -30,20 +30,22 @@ const Message: FC<Props> = ({ message }) => {
         <div
             className={`
                 rounded-md w-fit p-3 m-3 flex flex-col relative group
-                ${message.userId === user?.id ? 'bg-cyan-600 ml-auto' : 'bg-neutral-900'}
+                ${message.userId === user?.id ? 'bg-cyan-900 ml-auto' : 'bg-white text-cyan-900'}
             `}
         >
             {
                 (message.user?.id === user?.id && message.text !== 'This message has been deleted.' && !deleted)
                 &&
-                <div className='absolute hidden group-hover:block top-2 right-1 z-30 w-[98%] bg-[rgba(8,145,178,.7)] transition-all duration-200'>
+                <div className='absolute hidden group-hover:block top-2 right-1 z-30 w-[98%] bg-[#164e6388] transition-all duration-200'>
                     {
                         isOpen
                             ?
-                            <div className='top-3 right-0 p-3 bg-cyan-500 shadow-xl absolute w-32 rounded-md'>
-                                <p className='text-xl font-semibold'>Delete ?</p>
-                                <button onClick={handleDelete} className='mr-5 font-medium text-lg py-2 hover:underline'>Yes</button>
-                                <button onClick={() => setIsOpen(false)} className='py-2 font-medium text-lg hover:underline'>No</button>
+                            <div className='top-3 right-0 p-3 bg-cyan-900 shadow-xl absolute w-32 rounded-md'>
+                                <p className='text-lg font-semibold'>Delete message?</p>
+                                <div className='flex justify-between items-center'>
+                                    <button onClick={handleDelete} className='mr-5 font-medium text-lg py-2 hover:underline'>Yes</button>
+                                    <button onClick={() => setIsOpen(false)} className='py-2 font-medium text-lg hover:underline'>No</button>
+                                </div>
                             </div>
                             :
                             <HiOutlineChevronDown onClick={() => setIsOpen(prev => !prev)} className='ml-auto text-3xl cursor-pointer' />

@@ -64,7 +64,7 @@ const ChatInput: FC<Props> = ({ channelId, setMessages }) => {
                     }
                 </div>
             }
-            <div className='flex justify-around items-center'>
+            <div className='flex items-center gap-3'>
                 <input
                     ref={uploadInputRef}
                     type="file"
@@ -78,9 +78,11 @@ const ChatInput: FC<Props> = ({ channelId, setMessages }) => {
                 </button>
                 <input
                     readOnly={isPending}
-                    spellCheck='false'
+                    spellCheck="true"
+                    autoComplete="on"
                     type="text"
-                    name='chat'
+                    name="chat"
+                    placeholder="Type a message..."
                     className="bg-neutral-800 rounded-lg w-[90%] h-10 outline-none p-2"
                 />
                 <button type='submit'>

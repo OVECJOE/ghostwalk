@@ -86,7 +86,7 @@ const Chat = () => {
             )
         }
       />
-      <div ref={ref} className='flex flex-col overflow-x-hidden overflow-y-auto pb-10 h-[85%] scroll-smooth'>
+      <div ref={ref} className='flex flex-col overflow-x-hidden overflow-y-auto pb-10 px-2 scroll-smooth'>
         {
           !isPending
             ?
@@ -96,7 +96,7 @@ const Chat = () => {
                 return <Message key={index} message={message} />
               })
               :
-              <p className='bg-cyan-600 p-3 m-2 rounded-md text-center'>There is no any messages yet.</p>
+              <p className='bg-cyan-900 p-3 m-2 rounded-md text-center'>There is no any messages yet.</p>
             :
             <Spinner size='lg' />
         }
