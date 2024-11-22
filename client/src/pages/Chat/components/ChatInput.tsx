@@ -59,7 +59,7 @@ const ChatInput: FC<Props> = ({ channelId, setMessages }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} method="POST" className='bg-neutral-900 p-3 fixed inset-x-0 z-50 bottom-0 border-t border-cyan-500'>
+        <form onSubmit={handleSubmit} method="POST" className='bg-neutral-900 p-3 fixed md:absolute inset-x-0 z-50 bottom-0 border-t border-cyan-500'>
             {
                 images
                 &&
